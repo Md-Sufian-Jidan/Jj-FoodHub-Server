@@ -4,7 +4,7 @@ model User {
     email         String
     emailVerified Boolean @default(false)
     image         String?
-    role          Roles   @default(CUSTOMER)
+    role          String @default("CUSTOMER")
     status        Status  @default(ACTIVE)
 
     createdAt DateTime  @default(now())
@@ -14,11 +14,6 @@ model User {
 
     @@unique([email])
     @@map("user")
-}
-
-enum Roles {
-    CUSTOMER
-    PROVIDER
 }
 
 enum Status {
