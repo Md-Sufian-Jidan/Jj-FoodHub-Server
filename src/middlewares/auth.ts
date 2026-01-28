@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { auth as betterAuth } from '../lib/auth'
-import { prisma } from "../lib/prisma";
 
 export enum UserRole {
     CUSTOMER = "CUSTOMER",
@@ -62,8 +61,12 @@ const auth = (...roles: UserRole[]) => {
 
             next()
 
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            return res.status(error.status || 500).json({
+                success: false,
+                message: error.message || "Something went wrong while creating the meal.",
+                error: error,
+            });
         }
     }
 };

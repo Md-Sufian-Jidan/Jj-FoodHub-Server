@@ -1,8 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { UserRole } from "../middlewares/auth";
 
-const APP_URL = process.env.APP_URL;
-
 async function seedAdmin() {
     try {
         const adminData = {
@@ -21,9 +19,12 @@ async function seedAdmin() {
             return;
         }
 
-        const signUpAdmin = await fetch(`${APP_URL}/api/auth/sign-up/email`, {
+        const signUpAdmin = await fetch(`http://localhost:5000/api/auth/sign-up/email`, {
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: {
+                "content-type": "application/json",
+                origin: "http://localhost:5000"
+            },
             body: JSON.stringify(adminData)
         });
 
@@ -32,6 +33,16 @@ async function seedAdmin() {
                 where: { email: adminData.email },
                 data: {
                     emailVerified: true,
+                    providerProfile: {
+                        upsert: {
+                            create: {
+                                bio: "Main system administrator account.",
+                                address: "System Headquarters",
+                                phoneNumber: "000-000-0000",
+                            },
+                            update: {} // Do nothing if it already exists
+                        }
+                    }
                 }
             });
             console.log("✅ Super Admin created and verified successfully.");

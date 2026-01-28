@@ -1,0 +1,72 @@
+model Meal {
+  id          String  @id @default(uuid())
+  name        String
+  description String  @db.Text
+  price       Float
+  image       String
+  isAvailable Boolean @default(true)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  orderItems OrderItem[]
+  reviews    Review[]
+
+  @@map("meals")
+}
+
+model ProviderProfile {
+  id          String  @id @default(uuid())
+  bio         String? @db.Text
+  address     String
+  phoneNumber String
+  bannerImage String?
+
+  // Link to the main User model
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // One provider can have many meals
+  meals Meal[]
+
+  @@map("provider_profiles")
+}
+
+model Order {
+  id          String   @id @default(uuid())
+  status      String   @default("PENDING") // PENDING, PREPARING, DELIVERED, etc.
+  totalAmount Float
+  address     String // Specific address for this delivery
+  createdAt   DateTime @default(now())
+
+  userId String
+  user   User        @relation(fields: [userId], references: [id])
+  items  OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  quantity Int
+  price    Float // We store price here because meal prices change over time
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  mealId  String
+  meal    Meal   @relation(fields: [mealId], references: [id])
+
+  @@map("order_items")
+}
+
+model Category {
+  id    String  @id @default(uuid())
+  name  String  @unique
+  image String? // For the Bento Grid icons
+  meals Meal[]
+
+  @@map("categories")
+}
