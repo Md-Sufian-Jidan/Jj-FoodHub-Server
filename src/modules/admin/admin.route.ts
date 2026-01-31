@@ -1,26 +1,19 @@
-import { Router } from "express";
-// import {
-//     getAllUsers,
-//     updateUserStatus,
-//     getAllOrders,
-//     createCategory,
-// } from "../controllers/admin.controller.js";
+import express from "express";
+import auth, { UserRole } from "../../middlewares/auth";
+import { adminController } from "./admin.controller";
 
-// import { authMiddleware } from "../middlewares/auth.middleware.js";
-// import { roleMiddleware } from "../middlewares/role.middleware.js";
+const router = express.Router();
 
-const router = Router();
+// Users
+router.get("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
+router.patch("/users/:id", auth(UserRole.ADMIN), adminController.updateUserStatus);
 
-// router.get(
-//   "/users",
-//   auth(UserRole.ADMIN),
-//   getAllUsers
-// );
+// Orders
+router.get("/orders", auth(UserRole.ADMIN), adminController.getAllOrders);
 
-// router.patch(
-//   "/users/:id/status",
-//   auth(UserRole.ADMIN),
-//   updateUserStatus
-// );
+// Categories
+router.post("/categories", auth(UserRole.ADMIN), adminController.createCategory);
+router.patch("/categories/:id", auth(UserRole.ADMIN), adminController.updateCategory);
+router.delete("/categories/:id", auth(UserRole.ADMIN), adminController.deleteCategory);
 
-export default router;
+export const adminRouter = router;
