@@ -43,5 +43,4 @@ export const providerService = {
     getProviderOrders,
     getOrderDetails,
     updateOrderStatus
-
 };
