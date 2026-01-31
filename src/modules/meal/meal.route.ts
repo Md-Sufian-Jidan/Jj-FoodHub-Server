@@ -10,9 +10,6 @@ router.post(
     mealController.createMeal
 );
 
-router.get(
-    '/get-all-meals',
-    mealController.getAllMeals
-);
+router.get("/get-all-meals", mealController.getAllMeals);
 
 export const mealRouter = router;

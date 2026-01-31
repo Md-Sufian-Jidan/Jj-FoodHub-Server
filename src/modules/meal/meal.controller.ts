@@ -1,18 +1,11 @@
 import { Request, Response } from "express";
 import { mealServices } from "./meal.service";
-import { UserRole } from "../../middlewares/auth";
 
 const createMeal = async (req: Request, res: Response) => {
     try {
         const mealData = req.body;
-        const user = req.user;
+        const userId = req.user!.id;
 
-        const allowedRoles = [UserRole.ADMIN, UserRole.PROVIDER];
-        if (!user?.role || !allowedRoles.includes(user.role as UserRole)) {
-            throw new Error("You are not authorized to access this route");
-        }
-        
-        const userId = user.id as string;
         const result = await mealServices.createMealInDB(mealData, userId);
 
         return res.status(201).json({

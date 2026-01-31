@@ -2,7 +2,7 @@ model Meal {
   id          String  @id @default(uuid())
   name        String
   description String  @db.Text
-  price       Float
+  price       Decimal @db.Decimal(10, 2)
   image       String
   isAvailable Boolean @default(true)
 
@@ -14,51 +14,67 @@ model Meal {
 
   orderItems OrderItem[]
   reviews    Review[]
+  cartItems  CartItem[]
 
   @@map("meals")
 }
 
 model ProviderProfile {
-  id          String  @id @default(uuid())
-  bio         String? @db.Text
-  address     String
-  phoneNumber String
-  bannerImage String?
+  id             String  @id @default(uuid())
+  bio            String? @db.Text
+  address        String
+  phoneNumber    String
+  bannerImage    String?
+  restaurantName String @default("Unnamed Restaurant")
 
-  // Link to the main User model
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // One provider can have many meals
-  meals Meal[]
+  meals  Meal[]
+  orders Order[]
 
+  @@index([restaurantName])
   @@map("provider_profiles")
 }
 
 model Order {
-  id          String   @id @default(uuid())
-  status      String   @default("PENDING") // PENDING, PREPARING, DELIVERED, etc.
-  totalAmount Float
-  address     String // Specific address for this delivery
-  createdAt   DateTime @default(now())
+  id          String      @id @default(uuid())
+  status      OrderStatus @default(PENDING)
+  totalAmount Decimal     @db.Decimal(10, 2)
+  address     String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   userId String
-  user   User        @relation(fields: [userId], references: [id])
-  items  OrderItem[]
+  user   User   @relation(fields: [userId], references: [id])
+
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id])
+
+  items OrderItem[]
 
   @@map("orders")
 }
 
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
 model OrderItem {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   quantity Int
-  price    Float // We store price here because meal prices change over time
+  price    Decimal @db.Decimal(10, 2)
 
   orderId String
   order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
   mealId  String
   meal    Meal   @relation(fields: [mealId], references: [id])
 
+  @@unique([orderId, mealId])
   @@map("order_items")
 }
 

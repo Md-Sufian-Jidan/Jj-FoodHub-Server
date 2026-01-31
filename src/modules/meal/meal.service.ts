@@ -18,11 +18,8 @@ const createMealInDB = async (mealData: MealData, userId: string) => {
     }
 
     const providerProfile = await prisma.providerProfile.findUnique({
-        where: { id: userId }
+        where: { userId }
     });
-
-
-    console.log(providerProfile);
 
     if (!providerProfile) {
         throw new Error("You must have a Provider Profile to create meals.");

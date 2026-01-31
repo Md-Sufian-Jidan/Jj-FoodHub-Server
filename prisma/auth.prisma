@@ -1,22 +1,30 @@
 model User {
-  id            String    @id
+  id            String  @id
   name          String
-  email         String    @unique
-  emailVerified Boolean   @default(false)
+  email         String  @unique
+  emailVerified Boolean @default(false)
   image         String?
-  role          String    @default("CUSTOMER")
-  status        Status    @default(ACTIVE)
+  role          Role    @default(CUSTOMER)
+  status        Status  @default(ACTIVE)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  sessions  Session[]
+  accounts  Account[]
 
   // --- ADDED RELATIONS BELOW ---
-  orders        Order[]
-  reviews       Review[]
+  orders          Order[]
+  reviews         Review[]
   providerProfile ProviderProfile?
+  cart            Cart?
+
   @@map("user")
+}
+
+enum Role {
+  CUSTOMER
+  PROVIDER
+  ADMIN
 }
 
 enum Status {

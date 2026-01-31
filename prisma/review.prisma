@@ -6,8 +6,10 @@ model Review {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
   mealId String
   meal   Meal   @relation(fields: [mealId], references: [id])
 
+  @@unique([userId, mealId])
   @@map("reviews")
 }
