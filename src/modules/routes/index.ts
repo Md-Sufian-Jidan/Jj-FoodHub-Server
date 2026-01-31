@@ -6,6 +6,7 @@ import { orderRouter } from "../order/order.route";
 import { profileRouter } from "../customer/profile.route";
 import { reviewRouter } from "../customer/review.route";
 import { providerMealRouter } from "../provider/providerMeal.route";
+import { adminRouter } from "../admin/admin.route";
 
 const router = Router();
 
@@ -14,8 +15,9 @@ router.use('/category', categoryRouter);
 router.use("/cart", cartRouter);
 router.use("/orders", orderRouter);
 router.use("/profile", profileRouter);
-router.use("/api/reviews", reviewRouter);
+router.use("/reviews", reviewRouter);
 router.use("/provider/meals", providerMealRouter);
+router.use("/admin", adminRouter);
 
 
 export default router;
