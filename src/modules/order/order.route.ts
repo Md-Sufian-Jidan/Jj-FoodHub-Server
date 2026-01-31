@@ -1,19 +1,11 @@
-import { Router } from "express";
+import express from "express";
 import auth, { UserRole } from "../../middlewares/auth";
-// import { createOrder, getMyOrders } from "./order.controller";
+import { orderController } from "./order.controller";
 
-const router = Router();
+const router = express.Router();
 
-// router.post(
-//     "/",
-//     auth(UserRole.CUSTOMER),
-//     createOrder
-// );
+router.post("/", auth(UserRole.CUSTOMER), orderController.checkout);
+router.get("/", auth(UserRole.CUSTOMER), orderController.getOrders);
+router.get("/:id", auth(UserRole.CUSTOMER), orderController.getOrderDetails);
 
-// router.get(
-//     "/",
-//     auth(UserRole.CUSTOMER),
-//     getMyOrders
-// );
-
-export const orderRouter= router;
+export const orderRouter = router;
