@@ -1,27 +1,11 @@
-import { Router } from "express";
-// import {
-//     addMeal,
-//     updateMeal,
-//     deleteMeal,
-//     getProviderOrders,
-//     updateOrderStatus,
-// } from "../controllers/provider.controller.js";
+import express from "express";
+import auth, { UserRole } from "../../middlewares/auth";
+import { providerController } from "./provider.controller";
 
-// import { authMiddleware } from "../middlewares/auth.middleware.js";
-// import { roleMiddleware } from "../middlewares/role.middleware.js";
+const router = express.Router();
 
-const router = Router();
+router.get("/orders", auth(UserRole.PROVIDER), providerController.getOrders);
+router.get("/orders/:id", auth(UserRole.PROVIDER), providerController.getOrderDetails);
+router.patch("/orders/:id", auth(UserRole.PROVIDER), providerController.updateOrderStatus);
 
-// router.post(
-//   "/meals",
-//   auth(UserRole.PROVIDER),
-//   addMeal
-// );
-
-// router.patch(
-//   "/orders/:id/status",
-//   auth(UserRole.PROVIDER),
-//   updateOrderStatus
-// );
-
-export default router;
+export const providerRouter = router;
