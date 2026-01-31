@@ -33,7 +33,7 @@ const updateOrderStatus = async (providerId: string, orderId: string, status: st
 
     const updatedOrder = await prisma.order.update({
         where: { id: orderId },
-        data: { status },
+        data: { status},
     });
 
     return updatedOrder;
