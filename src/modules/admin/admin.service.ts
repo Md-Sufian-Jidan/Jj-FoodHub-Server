@@ -44,6 +44,15 @@ const createCategory = async (name: string, image?: string) => {
     return prisma.category.create({ data: { name, image } });
 }
 
+const getAllCategories = async () => {
+    return prisma.category.findMany({
+        select: {
+            name: true,
+            image: true,
+        }
+    });
+}
+
 const updateCategory = async (categoryId: string, name?: string, image?: string) => {
     return prisma.category.update({
         where: { id: categoryId },
@@ -60,6 +69,7 @@ export const adminService = {
     updateUserStatus,
     getAllOrders,
     createCategory,
+    getAllCategories,
     updateCategory,
     deleteCategory
 };

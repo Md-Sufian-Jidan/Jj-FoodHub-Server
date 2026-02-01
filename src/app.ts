@@ -17,7 +17,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use('/api/v1', router);
 
 app.get("/", (req, res) => {
-    console.log("Jj FOODHUB is running on port");
+    // console.log("Jj FOODHUB is running on port");
 });
 
 app.use(notFound);

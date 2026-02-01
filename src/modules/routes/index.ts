@@ -19,5 +19,4 @@ router.use("/reviews", reviewRouter);
 router.use("/provider/meals", providerMealRouter);
 router.use("/admin", adminRouter);
 
-
 export default router;

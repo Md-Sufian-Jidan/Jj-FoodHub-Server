@@ -12,6 +12,7 @@ router.patch("/users/:id", auth(UserRole.ADMIN), adminController.updateUserStatu
 router.get("/orders", auth(UserRole.ADMIN), adminController.getAllOrders);
 
 // Categories
+router.get("/get-all-category", auth(UserRole.ADMIN), adminController.getAllCategories);
 router.post("/categories", auth(UserRole.ADMIN), adminController.createCategory);
 router.patch("/categories/:id", auth(UserRole.ADMIN), adminController.updateCategory);
 router.delete("/categories/:id", auth(UserRole.ADMIN), adminController.deleteCategory);

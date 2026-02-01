@@ -5,7 +5,7 @@ async function seedAdmin() {
     try {
         const adminData = {
             name: "Super Admin 1",
-            email: "superadmin@gmail.com",
+            email: "superadmin1@gmail.com",
             password: "superadmin123$",
             role: UserRole.ADMIN
         };
@@ -15,7 +15,7 @@ async function seedAdmin() {
         });
 
         if (existingUser) {
-            console.log("⏩ Admin already exists. Skipping...");
+            // console.log("⏩ Admin already exists. Skipping...");
             return;
         }
 
@@ -45,14 +45,14 @@ async function seedAdmin() {
                     }
                 }
             });
-            console.log("✅ Super Admin created and verified successfully.");
+            // console.log("✅ Super Admin created and verified successfully.");
         } else {
             const errorData = await signUpAdmin.json();
-            console.error("❌ Sign up failed:", errorData);
+            // console.error("❌ Sign up failed:", errorData);
         }
 
     } catch (error) {
-        console.error("🚨 Seeding error:", error);
+        // console.error("🚨 Seeding error:", error);
     }
 }
 

@@ -24,7 +24,7 @@ const createMealInDB = async (mealData: MealData, userId: string) => {
     if (!providerProfile) {
         throw new Error("You must have a Provider Profile to create meals.");
     }
-    console.log("Meal data console from meal service", mealData);
+    // console.log("Meal data console from meal service", mealData);
     // 3. Create the Meal using the found IDs
     const result = await prisma.meal.create({
         data: {

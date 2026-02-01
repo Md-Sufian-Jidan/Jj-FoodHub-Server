@@ -11,7 +11,7 @@ const getAllCategoriesFromDB = async () => {
     const result = await prisma.category.findMany({
         include: {
             _count: {
-                select: { meals: true } // Useful for showing "12 Meals" on the frontend
+                select: { meals: true }
             }
         }
     });
